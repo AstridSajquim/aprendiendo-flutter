@@ -15,10 +15,10 @@ class MiApp extends StatelessWidget {
 }
 
 class Inicio extends StatefulWidget {
-  Inicio({Key key}) : super(key: key);
-  @override
   HomePage createState() => HomePage();
 }
+
+bool _suscrito = false;
 
 class HomePage extends State<Inicio> {
   @override
@@ -32,25 +32,50 @@ class HomePage extends State<Inicio> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               RaisedButton(
-                  child: Text("Click on me"),
+                  color: Color(0xffC82633),
+                  textColor: Color(0xffffffff),
+                  child: Text("Suscribirme al canal",
+                      style: TextStyle(fontSize: 20.0)),
                   onPressed: () {
                     showAlert(context);
                   }),
               SizedBox(
                 height: 100.0,
               ),
-              Text("Sí")
+              Text(
+                _suscrito ? "Subscrito" : "No subscrito",
+                style: TextStyle(fontSize: 20.0),
+              )
             ],
           ),
         ));
   }
-}
 
-void showAlert(BuildContext context) {
-  showDialog(
-      context: context,
-      builder: (_) => new AlertDialog(
-            title: Text("This is an alert"),
-            content: Text("This is text alert"),
-          ));
+  void showAlert(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => new AlertDialog(
+              title: Text("Suscribirse"),
+              content: Text("are you sure?"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      print("cancel");
+                      Navigator.pop(context);
+                    },
+                    child: Text("cancel")),
+                TextButton(
+                  child: Text("yas"),
+                  onPressed: () {
+                    print("yas");
+                    setState(() {
+                      _suscrito = true;
+                    });
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            ));
+  }
 }
