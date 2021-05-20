@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/page2.dart';
 
 void main() => runApp(MiApp());
 
@@ -26,21 +25,32 @@ class HomePage extends State<Inicio> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Título"),
+          title: Text("AlertDialog"),
         ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Home"),
               RaisedButton(
-                  child: Text("cambiar página"),
-                  onPressed: () => {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Page2()))
-                      })
+                  child: Text("Click on me"),
+                  onPressed: () {
+                    showAlert(context);
+                  }),
+              SizedBox(
+                height: 100.0,
+              ),
+              Text("Sí")
             ],
           ),
         ));
   }
+}
+
+void showAlert(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (_) => new AlertDialog(
+            title: Text("This is an alert"),
+            content: Text("This is text alert"),
+          ));
 }
