@@ -2,85 +2,66 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MiApp());
 
-class MiApp extends StatelessWidget {
-  const MiApp({Key key}) : super(key: key);
+class MiApp extends StatefulWidget {
+  @override
+  _MiApp createState() => _MiApp();
+}
 
+class _MiApp extends State<MiApp> {
+  int actuallPage = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Mi app",
-      home: Inicio(),
+      debugShowCheckedModeBanner: false,
+      title: "Material App",
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Material App Bar"),
+        ),
+        body: actuallPage == 0 ? HomePage() : UsersPage(),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (index) {
+            setState(() {
+              actuallPage = index;
+            });
+          },
+          currentIndex: actuallPage,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.supervised_user_circle), label: "Users"),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class Inicio extends StatefulWidget {
-  HomePage createState() => HomePage();
-}
-
-bool _suscrito = false;
-
-class HomePage extends State<Inicio> {
+class HomePage extends StatelessWidget {
+  const HomePage({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("AlertDialog"),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RaisedButton(
-                  color: Color(0xffC82633),
-                  textColor: Color(0xffffffff),
-                  child: Text(
-                      _suscrito ? "Cancelar Suscripción" : "Suscribirme",
-                      style: TextStyle(fontSize: 20.0)),
-                  onPressed: () {
-                    showAlert(context);
-                  }),
-              SizedBox(
-                height: 100.0,
-              ),
-              Text(
-                _suscrito ? "Suscrito" : "No suscrito",
-                style: TextStyle(fontSize: 20.0),
-              )
-            ],
-          ),
-        ));
+    return Center(
+      child: Text(
+        "Home",
+        style: TextStyle(fontSize: 30.0),
+      ),
+    );
   }
+}
 
-  void showAlert(BuildContext context) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => new AlertDialog(
-              title: Text(_suscrito ? "Cancelar Suscripción" : "Suscribirme",
-                  style: TextStyle(fontSize: 20.0)),
-              content: Text("¿Está seguro?"),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      print("Cancelar");
-                      setState(() {
-                        _suscrito = !_suscrito;
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: Text("Cancelar")),
-                TextButton(
-                  child: Text("Sí"),
-                  onPressed: () {
-                    print("Sí");
-                    setState(() {
-                      _suscrito = !_suscrito;
-                    });
-                    Navigator.pop(context);
-                  },
-                )
-              ],
-            ));
+class UsersPage extends StatelessWidget {
+  const UsersPage({Key key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        "Users",
+        style: TextStyle(fontSize: 30.0),
+      ),
+    );
   }
 }
