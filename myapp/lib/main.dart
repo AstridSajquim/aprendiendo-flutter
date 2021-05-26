@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/pages/home.dart';
+import 'package:myapp/pages/users.dart';
 
 void main() => runApp(MiApp());
 
@@ -9,6 +11,7 @@ class MiApp extends StatefulWidget {
 
 class _MiApp extends State<MiApp> {
   int actuallPage = 0;
+  List<Widget> pages = [HomePage(), UsersPage()];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,9 +21,10 @@ class _MiApp extends State<MiApp> {
         appBar: AppBar(
           title: Text("Material App Bar"),
         ),
-        body: actuallPage == 0 ? HomePage() : UsersPage(),
+        body: pages[actuallPage],
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {
+            print("hola");
             setState(() {
               actuallPage = index;
             });
@@ -35,32 +39,6 @@ class _MiApp extends State<MiApp> {
                 icon: Icon(Icons.supervised_user_circle), label: "Users"),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "Home",
-        style: TextStyle(fontSize: 30.0),
-      ),
-    );
-  }
-}
-
-class UsersPage extends StatelessWidget {
-  const UsersPage({Key key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        "Users",
-        style: TextStyle(fontSize: 30.0),
       ),
     );
   }
