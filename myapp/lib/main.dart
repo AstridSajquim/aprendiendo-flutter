@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/home.dart';
-import 'package:myapp/pages/users.dart';
 
 void main() => runApp(MiApp());
 
@@ -10,36 +8,45 @@ class MiApp extends StatefulWidget {
 }
 
 class _MiApp extends State<MiApp> {
-  int actuallPage = 0;
-  List<Widget> pages = [HomePage(), UsersPage()];
+  Empresa _facebook = new Empresa("facebook", "Mark", 10000);
+  Empresa _google = new Empresa("google", "Larry", 8000000);
+
+  @override
+  void initState() {
+    super.initState();
+    print(_facebook.nombre);
+    print(_facebook.propietario);
+    print(_facebook.ingresoAnual);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Material App",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Material App Bar"),
-        ),
-        body: pages[actuallPage],
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: (index) {
-            print("hola");
-            setState(() {
-              actuallPage = index;
-            });
-          },
-          currentIndex: actuallPage,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: "Home",
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.supervised_user_circle), label: "Users"),
-          ],
+    return Container(
+      child: MaterialApp(
+        title: "Clases",
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Clases"),
+          ),
+          body: Center(
+              child: Text(
+            _google.ingresoAnual.toString(),
+            style: TextStyle(fontSize: 24),
+          )),
         ),
       ),
     );
+  }
+}
+
+class Empresa {
+  String nombre;
+  String propietario;
+  int ingresoAnual;
+
+  Empresa(String nombre, String propietario, int ingreso) {
+    this.nombre = nombre;
+    this.propietario = propietario;
+    this.ingresoAnual = ingreso;
   }
 }
