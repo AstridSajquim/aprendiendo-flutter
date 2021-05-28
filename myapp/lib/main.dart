@@ -8,45 +8,77 @@ class MiApp extends StatefulWidget {
 }
 
 class _MiApp extends State<MiApp> {
-  Empresa _facebook = new Empresa("facebook", "Mark", 10000);
-  Empresa _google = new Empresa("google", "Larry", 8000000);
-
-  @override
-  void initState() {
-    super.initState();
-    print(_facebook.nombre);
-    print(_facebook.propietario);
-    print(_facebook.ingresoAnual);
-  }
+  List<Person> _persons = [
+    Person("José", "Galdamez", "098"),
+    Person("Astrid", "Sajquim", "852"),
+    Person("Sofi", "Sajquim", "789"),
+    Person("Luis", "Chang", "123")
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: MaterialApp(
-        title: "Clases",
-        home: Scaffold(
+    return MaterialApp(
+      title: "MaterialAPP",
+      home: Scaffold(
           appBar: AppBar(
-            title: Text("Clases"),
+            title: Text("MaterialAPPBar"),
           ),
-          body: Center(
-              child: Text(
-            _google.ingresoAnual.toString(),
-            style: TextStyle(fontSize: 24),
-          )),
-        ),
-      ),
+          body: ListView.builder(
+              itemCount: _persons.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onLongPress: () {
+                    this._deletePerson(context, _persons[index]);
+                  },
+                  title: Text(
+                      _persons[index].name + " " + _persons[index].lastname),
+                  subtitle: Text(_persons[index].phone),
+                  leading: CircleAvatar(
+                    child: Text(_persons[index].name.substring(0, 1)),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                );
+              })),
     );
+  }
+
+  _deletePerson(context, Person person) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text("Delete contact"),
+              content: Text("Confirm delete: " + person.name),
+              actions: [
+                FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("cancel")),
+                FlatButton(
+                    onPressed: () {
+                      print(person.name);
+                      this.setState(() {
+                        this._persons.remove(person);
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "delete",
+                      style: TextStyle(color: Colors.red),
+                    )),
+              ],
+            ));
   }
 }
 
-class Empresa {
-  String nombre;
-  String propietario;
-  int ingresoAnual;
+class Person {
+  String name;
+  String lastname;
+  String phone;
 
-  Empresa(String nombre, String propietario, int ingreso) {
-    this.nombre = nombre;
-    this.propietario = propietario;
-    this.ingresoAnual = ingreso;
+  Person(String name, String lastname, String phone) {
+    this.name = name;
+    this.lastname = lastname;
+    this.phone = phone;
   }
 }
